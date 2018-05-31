@@ -9,7 +9,8 @@ public class Package {
     public static void main(String[] args) {
 //        new Package().oneZeroPackage(new int[]{3, 3, 5, 7, 8}, new int[]{6, 7, 12, 20, 30}, 80);
 //        new Package().completePackage(new int[]{3, 3, 5, 7, 8}, new int[]{6, 7, 12, 20, 30}, 78);
-        new Package().completePackageToOneZero(new int[]{3, 3, 5, 7, 8}, new int[]{6, 7, 12, 20, 30}, 78);
+//        new Package().completePackageToOneZero(new int[]{3, 3, 5, 7, 8}, new int[]{6, 7, 12, 20, 30}, 78);
+        new Package().multiplePackage(new int[]{10, 1, 4, 6, 2}, new int[]{3, 3, 5, 7, 8}, new int[]{6, 7, 12, 20, 30}, 78);
 
     }
 
@@ -44,7 +45,7 @@ public class Package {
         List<Integer> cList = new ArrayList<>();
         List<Integer> wList = new ArrayList<>();
         for (int i = 0; i < c.length; i++) {
-            for (int j = 0; j <= v/c[i]; j++) {
+            for (int j = 0; j <= v / c[i]; j++) {
                 cList.add(c[i]);
                 wList.add(w[i]);
             }
@@ -52,8 +53,16 @@ public class Package {
         completePackage(Arrays.stream(cList.toArray(new Integer[0])).mapToInt(Integer::valueOf).toArray(), Arrays.stream(wList.toArray(new Integer[0])).mapToInt(Integer::valueOf).toArray(), v);
     }
 
-    public void mutilePackage() {
-
+    public void multiplePackage(int[] n, int[] c, int[] w, int v) {
+        int[] record = new int[v + 1];
+        for (int i = 1; i <= c.length; i++) {
+            for (int j = v; j >= c[i - 1]; j--) {
+                for (int k = 0; k <= n[i - 1] && j - k * c[i - 1] >= 0; k++) {
+                    record[j] = max(record[j], record[j - k * c[i - 1]] + k * w[i - 1]);
+                }
+            }
+        }
+        System.out.println(record[v]);
     }
 
     private int max(int a, int b) {
